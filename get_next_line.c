@@ -6,7 +6,7 @@
 /*   By: malhassa <malhassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 15:23:46 by malhassa          #+#    #+#             */
-/*   Updated: 2025/09/11 17:46:24 by malhassa         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:11:50 by malhassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,12 @@ int	lentillfound(char *str)
 	return (i);
 }
 
-char	*get_next_line(int fd)
-{ 
-	static char	*remaining;
-	char		*buffer = malloc (BUFFER_SIZE + 1);
-	char		*returnedstr;
+char	*readmee(int fd,char *buffer,char *remaining)
+{
 	ssize_t		bytes;
-	
-	if(!buffer)
-		return (NULL);
-	buffer[0] = '\0';
+
 	bytes = 1;
+	buffer[0] = '\0';
 	if (!remaining)
 		remaining = ft_strdup("");
 	while (!ft_strchr(buffer, '\n') && bytes > 0)
@@ -51,41 +46,55 @@ char	*get_next_line(int fd)
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes < 0)
 		{
-			free(buffer);
-			free(remaining);
 			remaining = NULL;
 			return (NULL);
 		}
 		buffer[bytes] = '\0';
 		remaining = ft_fstrjoin(remaining, buffer);  
 	}
-	if (*remaining == '\0')
+	return (remaining);
+}
+
+char	*get_next_line(int fd)
+{ 
+	static char	*remaining;
+	char		*buffer;
+	char		*returnedstr;
+	
+	buffer = malloc(BUFFER_SIZE + 1);
+	if(!buffer)
+		return (NULL);
+	remaining = readmee(fd,buffer,remaining);
+	if (!remaining || *remaining == '\0' )
 	{
-		free(buffer);
 		free(remaining);
+		free(buffer);
 		return (NULL);
 	}
 	returnedstr = getfirstline(remaining);
 	if (!returnedstr)
 	{
+		free(remaining);
 		free(buffer);
 		return (NULL);
 	}
 	remaining = returnremaining(remaining);
 	free(buffer);
+	if(!remaining)
+		free(remaining);
 	return (returnedstr);
 }
 
-// int	main(void)
-// {
-// 	int fd;
-// 	char *line;
+int	main(void)
+{
+	int fd;
+	char *line;
 	
-// 	fd = open("newfile.txt", O_RDONLY);
-//     while ((line = get_next_line(fd)))
-//     {		
-//         printf("%s", line);
-//         free(line);
-//     }
-// 	close(fd);	
-// }
+	fd = open("newfile.txt", O_RDONLY);
+    while ((line = get_next_line(fd)))
+    {		
+        printf("%s", line);
+        free(line);
+    }
+	close(fd);	
+}

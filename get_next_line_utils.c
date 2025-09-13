@@ -6,7 +6,7 @@
 /*   By: malhassa <malhassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:42:35 by malhassa          #+#    #+#             */
-/*   Updated: 2025/09/11 17:48:39 by malhassa         ###   ########.fr       */
+/*   Updated: 2025/09/12 17:06:44 by malhassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,11 @@ char	*returnremaining(char *rem)
 	char	*temp;
 	char	*newline;
 
+	if(!rem)
+		return (NULL);
 	newline = ft_strchr(rem, '\n');
 	if (!newline)
-	{
-		free(rem);
 		return (NULL);
-	}
 	newline++;
 	temp = malloc(ft_strlen(newline) + 1);
 	if (!temp)
