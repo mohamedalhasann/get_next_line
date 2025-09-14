@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malhassa <malhassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 16:42:35 by malhassa          #+#    #+#             */
-/*   Updated: 2025/09/14 20:09:40 by malhassa         ###   ########.fr       */
+/*   Created: 2025/09/14 21:10:21 by malhassa          #+#    #+#             */
+/*   Updated: 2025/09/14 21:31:39 by malhassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_fstrjoin(char *s1, char *s2)
 {

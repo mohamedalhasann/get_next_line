@@ -1,7 +1,0 @@
-line1 with newline
-line2 with newline
-
-line4 after empty line
-line5 very very very very very very very very very very very very very very very very very very very very very long line that will exceed buffer size easily
-line6 normal
-last line without newline

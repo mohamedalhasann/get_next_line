@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: malhassa <malhassa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/06 15:23:46 by malhassa          #+#    #+#             */
-/*   Updated: 2025/09/14 21:09:25 by malhassa         ###   ########.fr       */
+/*   Created: 2025/09/14 21:09:35 by malhassa          #+#    #+#             */
+/*   Updated: 2025/09/14 21:33:17 by malhassa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_strcpy(char *dest, const char *src)
 {
@@ -104,39 +104,26 @@ static char	*readmee(int fd, char *remaining, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*remaining;
 	char		*returnedstr;
 	char		*buffer;
+	static char	*remaining[1024];
 
-	if (BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1024)
 		return (NULL);
 	buffer = malloc(BUFFER_SIZE + 1);
 	if (!buffer)
 		return (NULL);
-	remaining = readmee(fd, remaining, buffer);
+	remaining[fd] = readmee(fd, remaining[fd], buffer);
 	free(buffer);
-	if (!remaining)
+	if (!remaining[fd])
 		return (NULL);
-	if (*remaining == '\0')
+	if (*remaining[fd] == '\0')
 	{
-		free(remaining);
-		remaining = NULL;
+		free(remaining[fd]);
+		remaining[fd] = NULL;
 		return (NULL);
 	}
-	returnedstr = getfirstline(remaining);
-	remaining = returnremaining(remaining);
+	returnedstr = getfirstline(remaining[fd]);
+	remaining[fd] = returnremaining(remaining[fd]);
 	return (returnedstr);
 }
-
-// int	main(void)
-// {
-// 	int fd;
-// 	char *line;
-// 	fd = open("mu.txt", O_RDONLY);
-//     while ((line = get_next_line(fd)))
-//     {
-//         printf("%s", line);
-//         free(line);
-//     }
-// 	close(fd);
-// }
